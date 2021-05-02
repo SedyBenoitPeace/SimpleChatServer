@@ -34,22 +34,22 @@ namespace ChatServer
                 // When the client is connected, broadcast the current number of user(s)
                 //broadcast($"NUMBER:{list_clients.Count}");
 
-                broadcast($"NEW_GUEST:GUEST{list_clients.Count.ToString("D3")}");
+                Broadcast($"NEW_GUEST:GUEST{list_clients.Count.ToString("D3")}");
                 Console.WriteLine($"GUEST{list_clients.Count} has joined the room");
 
 
-                Thread t = new Thread(handle_clients);
+                Thread t = new Thread(Handle_clients);
                 t.Start(count);
                 count++;
             }
         }
 
-        public static int getUserCount()
+        public static int GetUserCount()
         {
             return list_clients.Count;
         }
 
-        public static void handle_clients(object o)
+        public static void Handle_clients(object o)
         {
 
 
@@ -73,7 +73,7 @@ namespace ChatServer
                 // TODO: refactor
                 // Converts the bytestream to string
                 var data = Encoding.ASCII.GetString(buffer, 0, byte_count);
-                broadcast(data);
+                Broadcast(data);
 
                 // Splits the message type and the actual message
                 var parsedPayload = data.Split(':');
@@ -95,7 +95,7 @@ namespace ChatServer
                         Console.WriteLine($"You nickname '{payload}' is already taken. Please try a new one.");
 
                         var res = $"USER_ALREADY_EXIST:{payload}";
-                        broadcast(res);
+                        Broadcast(res);
                     }
                     else
                     {
@@ -103,7 +103,7 @@ namespace ChatServer
                         Console.WriteLine($"{payload} is added to the list");
 
                         var res = $"USER_ADDED:{payload}";
-                        broadcast(res);
+                        Broadcast(res);
                     }
                 }
             }
@@ -113,7 +113,7 @@ namespace ChatServer
             client.Close();
         }
 
-        public static void broadcast(string data)
+        public static void Broadcast(string data)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(data + Environment.NewLine);
 

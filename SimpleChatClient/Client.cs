@@ -27,7 +27,7 @@ namespace ChatClient
             NetworkStream ns = client.GetStream();
 
             // Initialize guest name
-            GuestName = getGuestName(ns);
+            GuestName = GetGuestName(ns);
 
 
 
@@ -106,7 +106,7 @@ namespace ChatClient
         }
 
         // Generate a temporary guest name based on the current number of users
-        static string getGuestName(NetworkStream ns)
+        static string GetGuestName(NetworkStream ns)
         {
             byte[] receivedBytes = new byte[1024];
             int byte_count;
